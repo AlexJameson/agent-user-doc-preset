@@ -35,6 +35,64 @@ Local repository rules override portable defaults. Treat `STYLE.md` as a compact
 style guide: apply concrete rules directly, and use `Questions For Maintainers`
 only when an unresolved decision blocks or materially affects the task.
 
+## Portable Documentation Rules
+
+Apply these defaults only when local contracts or repository rules are silent.
+
+### General Principles
+
+- Preserve the existing style and structure of a document unless the task
+  requires changes.
+- Change formatting only when the task, local rules, or document consistency
+  requires it.
+- Prefer the smallest correct documentation change.
+- State assumptions when they affect the result.
+- If multiple interpretations are plausible, ask or list the alternatives.
+
+### Tone And Language
+
+- Use a neutral, professional, user-facing tone.
+- Avoid slang, metaphors, emotional phrasing, and bureaucratic language.
+- Prefer active voice where natural.
+- Prefer short sentences and paragraphs with one main idea.
+- In procedural docs, use direct instructions when the repo style allows it.
+- Keep product terminology consistent with `STYLE.md`, existing docs, UI labels,
+  code names, schemas, or user-confirmed terms.
+
+### Instructions And Lists
+
+- For step-by-step tasks, use numbered lists.
+- For unordered sets of three or more related items, use bulleted lists.
+- Add an introductory phrase before a list when it improves readability.
+- Keep tutorials on one safe path; avoid branching unless necessary.
+- Keep how-to guides focused on the user's goal and expected result.
+
+### Formatting
+
+- Format commands, parameters, methods, variables, filenames, paths, and literal
+  values as inline code.
+- Use fenced code blocks for commands, config, payloads, and multi-line examples.
+- Preserve existing frontmatter, includes, admonitions, tabs, anchors, diagrams,
+  snippets, conditional blocks, and component syntax.
+- Preserve existing table format. Do not convert table syntaxes unless asked.
+- For preset contracts, prefer Markdown-KV over Markdown tables.
+
+### Links And Examples
+
+- Preserve local link style and anchor syntax.
+- Verify internal links when feasible.
+- Keep examples aligned with the configured source of truth: code, CLI help,
+  OpenAPI/schema files, tests, UI, or supplied materials.
+- Mark examples as unverified when verification is not feasible.
+
+### Review Baseline
+
+- Check completeness for the declared page type.
+- Check clarity for the intended reader.
+- Check structure against the page type and placement rules.
+- Check links, examples, and formatting consistency.
+- Check factual support for product claims.
+
 ## Task Routing
 
 - **Create**: classify the target page as a Diataxis type or known custom type,
