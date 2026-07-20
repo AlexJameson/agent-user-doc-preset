@@ -6,7 +6,7 @@ agents by hand: repo tooling is discovered, writing conventions are recorded as
 editable contracts, and the primary agent does the day-to-day work.
 
 **v1 scope: OpenCode only.** One primary agent, two skills, and two slash
-commands.
+commands. More details about scope, future versions, contract behavior, and implementation details are in `REQUIREMENTS.md`.
 
 ## Quick Start
 
@@ -83,39 +83,19 @@ Clone the preset if needed, copy the OpenCode agent, commands, and skills, then 
 - `REQUIREMENTS.md` is the implementation-aligned reference for this preset repo.
   It is not copied into target documentation repos.
 
-## Manual Install
+## How To Use
 
-```sh
-# from your project root
-mkdir -p .opencode/agent .agents/skills
-cp agent/documentation-writer.md .opencode/agent/documentation-writer.md
-cp -r skills/good-docs skills/docs-env-scan .agents/skills/
-mkdir -p .opencode/command
-cp command/scan-docs.md command/check-docs.md .opencode/command/
-```
+Run `/scan-docs` first in the target documentation repo. It scans the docs setup,
+asks for confirmation, and writes the four Markdown-KV contracts under
+`.agents/docs-preset/`.
 
-## First run
+After that, use the **documentation-writer** agent for normal docs work: create,
+edit, review, or restructure user-facing docs. The agent reads the contracts and
+uses `good-docs` when it needs documentation-type guidance, review criteria,
+style defaults, markup cautions, or contract-extension advice.
 
-Open OpenCode, switch to the **documentation-writer** agent (Tab), and ask for a
-docs task or run `/scan-docs`. On first run the agent proposes what it found and,
-once you confirm, writes the required Markdown-KV contract set:
-
-- `MANIFEST.md` — registry of active contract files.
-- `TOOLING.md` — how we build and what is safe to edit.
-- `STYLE.md` — how we write, including placeholders for team-specific rules.
-- `STRUCTURE.md` — user-facing documentation surfaces, lightweight zones, and
-  placement rules.
-
-From then on, just ask for doc work. The agent reads the contracts, follows
-them, and tells you when reality drifts from them. It treats Markdown as the
-default source format but preserves detected MDX, reST, AsciiDoc, or mixed-format
-conventions.
-
-You can also use slash commands:
-
-- `/scan-docs` — scan or re-scan docs contracts.
-- `/check-docs path/to/file.md` — review a file or directory against existing
-  contracts.
+Use `/check-docs path/to/file.md` when you want a focused review against existing
+contracts without rewriting by default.
 
 ## Status
 
