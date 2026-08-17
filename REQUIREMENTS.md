@@ -1,4 +1,4 @@
-# Agent Users Doc Preset Requirements
+# Agent User Doc Preset Requirements
 
 Status: v0.1.2 implementation-aligned reference. Current implementation is the source of truth for v1.
 

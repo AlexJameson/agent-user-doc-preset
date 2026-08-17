@@ -11,7 +11,7 @@ VERSION="$1"
 ROOT_DIR="$(pwd)"
 DIST_DIR="$ROOT_DIR/dist"
 STAGE_DIR="$DIST_DIR/stage"
-ARCHIVE_ROOT="agent-users-doc-preset-${VERSION}"
+ARCHIVE_ROOT="agent-user-doc-preset-${VERSION}"
 ARCHIVE_DIR="$STAGE_DIR/$ARCHIVE_ROOT"
 
 rm -rf "$STAGE_DIR"

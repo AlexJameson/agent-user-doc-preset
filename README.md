@@ -1,8 +1,8 @@
-# Agent Users Doc Preset
+# Agent User Doc Preset
 
 ![Version](https://img.shields.io/badge/version-0.1.2-blue)
 
-A portable documentation bundle for AI agents. It ships two standard Agent Skills and one optional agent definition. Each part is self-contained.
+A portable bundle to make agents write good user docs. It ships two standard Agent Skills and one optional agent definition. Each part is self-contained.
 
 ## Includes
 
@@ -24,7 +24,7 @@ This is the fastest path.
 2. Ask it to install the preset:
 
 ```text
-Install the documentation preset from https://github.com/AlexJameson/agent-users-doc-preset into this repo.
+Install the documentation preset from https://github.com/AlexJameson/agent-user-doc-preset into this repo.
 
 Required:
 - Install `skills/scan-user-docs` at `.agents/skills/scan-user-docs`
@@ -62,7 +62,7 @@ You can download a release zip from GitHub Releases or clone the repo.
 
 Release page:
 
-- `https://github.com/AlexJameson/agent-users-doc-preset/releases`
+- `https://github.com/AlexJameson/agent-user-doc-preset/releases`
 
 ### Skills
 
@@ -82,7 +82,7 @@ File-manager approach:
 Example:
 
 ```sh
-PRESET=/path/to/agent-users-doc-preset
+PRESET=/path/to/agent-user-doc-preset
 mkdir -p .agents/skills
 cp -r "$PRESET/skills/scan-user-docs" "$PRESET/skills/maintain-user-docs" .agents/skills/
 ```
@@ -109,7 +109,7 @@ OpenCode command paths:
 Terminal example:
 
 ```sh
-PRESET=/path/to/agent-users-doc-preset
+PRESET=/path/to/agent-user-doc-preset
 mkdir -p .opencode/agent .opencode/command
 cp "$PRESET/agent/documentation-writer.md" .opencode/agent/documentation-writer.md
 cp "$PRESET/command/scan-docs.md" "$PRESET/command/check-docs.md" .opencode/command/
