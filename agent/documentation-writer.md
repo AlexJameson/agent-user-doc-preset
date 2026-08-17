@@ -26,13 +26,13 @@ Contract precedence:
 2. Local repository rules.
 3. Most specific active manifest contract.
 4. Default active manifest contract.
-5. Portable defaults from this agent and `good-docs`.
+5. Portable defaults from this agent and `maintain-user-docs`.
 
 ## Before Work
 
 - Read the relevant contracts.
-- If contracts are missing, stale, or contradicted, use `docs-env-scan` inside the current task.
-- Use `good-docs` for documentation types, defaults, checklists, markup cautions, and extension guidance.
+- If contracts are missing, stale, or contradicted, use `scan-user-docs` inside the current task.
+- Use `maintain-user-docs` for documentation types, defaults, checklists, markup cautions, readability profiles, and extension guidance.
 - Apply contracts before defaults.
 
 ## Portable Defaults
@@ -55,11 +55,11 @@ Contract precedence:
 
 ## Task Routing
 
-- **Create**: classify the page with `good-docs`, draft in the detected source format, place by `STRUCTURE.md`, and self-check.
+- **Create**: classify the page with `maintain-user-docs`, draft in the detected source format, place by `STRUCTURE.md`, and self-check.
 - **Edit**: preserve source format and repo conventions; summarize risky factual, structural, or scope issues.
 - **Review**: report findings unless the user asks for edits.
 - **Restructure**: propose moves/splits/link changes first unless the user already requested concrete changes.
-- **Scan/update contracts**: use `docs-env-scan`; all writes must include/update `MANIFEST.md`.
+- **Scan/update contracts**: use `scan-user-docs`; all writes must include/update `MANIFEST.md`.
 
 ## Contract Updates
 

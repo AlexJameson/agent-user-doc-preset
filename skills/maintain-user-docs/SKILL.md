@@ -1,12 +1,12 @@
 ---
-name: good-docs
+name: maintain-user-docs
 description: >-
   Use when writing, editing, reviewing, or restructuring user-facing docs.
-  Provides doc type guidance, checklists, style defaults, markup cautions, and
-  contract extension guidance.
+  Provides doc type guidance, checklists, style defaults, markup cautions,
+  readability profiles, and contract extension guidance.
 ---
 
-# Good Docs
+# Maintain User Docs
 
 Stateless reference only. Do not write files or store project facts. Project
 facts come from `.agents/docs-preset/` contracts registered in `MANIFEST.md`.
@@ -66,6 +66,43 @@ structure: context, answer, details, related material, source notes
 
 `STYLE.md` should read like a compact local style guide. Put unresolved choices
 under `Questions For Maintainers`, not as `prompt:` fields on detected facts.
+
+## Readability Profiles
+
+Use these as optional overlays when the repo language, audience, or explicit
+user request calls for tighter technical prose. They are guidance, not a reason
+to overwrite established local style without need.
+
+### Profile: ste100-en-basics
+
+Use for English technical docs when the team wants controlled, low-ambiguity
+prose. This is STE100-inspired guidance, not a compliance claim.
+
+- Keep instruction sentences short.
+- Keep explanation sentences short.
+- Use one instruction per sentence.
+- Put the condition before the action.
+- Prefer active voice and direct verbs.
+- Keep one term for one concept across the page.
+- Remove hedging and filler when the fact is known.
+
+Reference: `references/ste100-en-basics.md`
+
+### Profile: ru-technical-basics
+
+Use for Russian technical docs when the team wants controlled, plain technical
+Russian. Do not call this STE100. It is a Russian readability profile inspired
+by the same controlled-language goals.
+
+- Prefer direct verbs over noun-heavy official wording.
+- Use one action or one point per sentence.
+- Put the condition before the action.
+- Prefer active voice when it makes responsibility and behavior clearer.
+- Keep terminology stable; one term for one concept.
+- Split stacked noun chains and long clauses.
+- Replace vague modality with explicit conditions, values, files, commands, or outcomes.
+
+Reference: `references/ru-technical-basics.md`
 
 ## Markup Cautions
 

@@ -1,104 +1,156 @@
-# agent-doc-preset
+# Agent Users Doc Preset
 
-A portable documentation preset for AI coding agents. It helps a founder or a
-small writing team create and maintain user-facing docs without configuring
-agents by hand: repo tooling is discovered, writing conventions are recorded as
-editable contracts, and the primary agent does the day-to-day work.
+![Version](https://img.shields.io/badge/version-0.1.1-blue)
 
-**v1 scope: OpenCode only.** One primary agent, two skills, and two slash
-commands. More details about scope, future versions, contract behavior, and implementation details are in `REQUIREMENTS.md`.
+A portable documentation bundle for AI agents. It ships two standard Agent
+Skills and one optional agent definition. Each part is self-contained.
 
-## Quick Start
+## Includes
 
-### Option A: Copy Files Manually
+- `skills/scan-user-docs/`: scans a docs repo, writes readable Markdown-KV
+  contracts under `.agents/docs-preset/`, and creates or updates `AGENTS.md` so
+  downstream agents can find all four contract files.
+- `skills/maintain-user-docs/`: stateless guidance for writing, editing,
+  reviewing, and restructuring user-facing docs. Includes English
+  STE100-inspired basics and Russian controlled technical writing basics.
+- `agent/documentation-writer.md`: optional agent definition focused on
+  day-to-day docs work. Use it directly in OpenCode or adapt it to another
+  harness.
 
-1. Clone this preset repo:
+Optional OpenCode wrappers:
 
-```sh
-git clone https://github.com/AlexJameson/agent-doc-preset.git
+- `command/scan-docs.md`
+- `command/check-docs.md`
+
+## Install With An Agent
+
+This is the fastest path.
+
+1. Open your documentation repo in your agent.
+2. Ask it to install the preset:
+
+```text
+Install the documentation preset from https://github.com/AlexJameson/agent-users-doc-preset into this repo.
+
+Required:
+- Install `skills/scan-user-docs` at `.agents/skills/scan-user-docs`
+- Install `skills/maintain-user-docs` at `.agents/skills/maintain-user-docs`
+
+Optional:
+- If this harness supports repo-local agent definitions, install or adapt `agent/documentation-writer.md`
+- If this harness supports OpenCode-style commands, install `command/scan-docs.md` and `command/check-docs.md`
+
+Report what you installed and where. Do not run the scan yet.
 ```
 
-2. Open a terminal in your documentation project root.
+3. Run the scan skill:
 
-3. Copy the preset files:
+```text
+Use `scan-user-docs` to scan this repo and write documentation contracts.
+```
+
+4. For normal docs work, use the writing and review skill:
+
+```text
+Use `maintain-user-docs` to review or rewrite this page.
+```
+
+`scan-user-docs` is self-contained. It writes the contracts and patches
+`AGENTS.md` so generic agents can consume them without extra setup.
+
+## Install Manually
+
+You can download a release zip from GitHub Releases or clone the repo.
+
+Release page:
+
+- `https://github.com/AlexJameson/agent-users-doc-preset/releases`
+
+### Skills
+
+Place these folders in your project:
+
+- `skills/scan-user-docs/` -> `.agents/skills/scan-user-docs/`
+- `skills/maintain-user-docs/` -> `.agents/skills/maintain-user-docs/`
+
+You can do this with your file manager or by terminal.
+
+File-manager approach:
+
+- unpack the release zip or open the cloned repo
+- drag `skills/scan-user-docs/` into `.agents/skills/`
+- drag `skills/maintain-user-docs/` into `.agents/skills/`
+
+Example:
 
 ```sh
-PRESET=/Users/alexjameson92/Desktop/repos/agent-doc-preset
-mkdir -p .opencode/agent .opencode/command .agents/skills
+PRESET=/path/to/agent-users-doc-preset
+mkdir -p .agents/skills
+cp -r "$PRESET/skills/scan-user-docs" "$PRESET/skills/maintain-user-docs" .agents/skills/
+```
+
+Then run:
+
+```text
+Use `scan-user-docs` to scan this repo and write documentation contracts.
+```
+
+### Optional Agent Definition
+
+If your harness supports repository agent definitions, install the bundled agent
+definition too.
+
+OpenCode path:
+
+- `agent/documentation-writer.md` -> `.opencode/agent/documentation-writer.md`
+
+OpenCode command paths:
+
+- `command/scan-docs.md` -> `.opencode/command/scan-docs.md`
+- `command/check-docs.md` -> `.opencode/command/check-docs.md`
+
+Terminal example:
+
+```sh
+PRESET=/path/to/agent-users-doc-preset
+mkdir -p .opencode/agent .opencode/command
 cp "$PRESET/agent/documentation-writer.md" .opencode/agent/documentation-writer.md
 cp "$PRESET/command/scan-docs.md" "$PRESET/command/check-docs.md" .opencode/command/
-cp -r "$PRESET/skills/good-docs" "$PRESET/skills/docs-env-scan" .agents/skills/
 ```
 
-4. Open OpenCode, switch to the **documentation-writer** agent, and run:
+For Claude Code, pi, or another harness, use `agent/documentation-writer.md` as
+source material and ask an agent to rewrite it into that harness's repo-local
+agent, prompt, or rules format.
 
-```text
-/scan-docs
-```
+## What `scan-user-docs` Writes
 
-5. Confirm the detected setup. The scan creates `.agents/docs-preset/` contracts
-that future docs tasks will use.
+- `AGENTS.md`
+- `.agents/docs-preset/MANIFEST.md`
+- `.agents/docs-preset/TOOLING.md`
+- `.agents/docs-preset/STYLE.md`
+- `.agents/docs-preset/STRUCTURE.md`
 
-### Option B: Ask An Agent To Install
+`MANIFEST.md` is mandatory. `AGENTS.md` is an activation aid only. Contract
+facts stay in `.agents/docs-preset/`.
 
-1. Open your documentation project in OpenCode.
+## Components
 
-2. Ask the agent:
-
-```text
-Install the documentation preset from https://github.com/AlexJameson/agent-doc-preset into this repo.
-Clone the preset if needed, copy the OpenCode agent, commands, and skills, then tell me when it is ready. Do not run the scan yet.
-```
-
-3. Switch to the **documentation-writer** agent.
-
-4. Run:
-
-```text
-/scan-docs
-```
-
-5. Confirm the detected setup.
-
-## Preset Files
-
-- `agent/documentation-writer.md` is the OpenCode primary agent. It reads repo
-  contracts, writes/reviews user-facing docs, preserves local conventions, and
-  calls the skills when it needs docs knowledge or environment scanning.
-- `command/scan-docs.md` is the `/scan-docs` command. It runs the environment
-  scan and requires the four-file contract set: `MANIFEST.md`, `TOOLING.md`,
-  `STYLE.md`, and `STRUCTURE.md`.
-- `command/check-docs.md` is the `/check-docs` command. It reviews a file or
-  directory against the active contracts and writing rules without editing unless
-  the user asks for fixes.
-- `skills/docs-env-scan/` is the state-producing scan skill. It detects docs
+- `skills/scan-user-docs/` is the state-producing scan skill. It detects docs
   tooling, user-facing surfaces, style signals, generated outputs, and compact
-  structure, then writes Markdown-KV contracts.
-- `skills/docs-env-scan/templates/` contains the contract shapes used by the
-  scanner. `MANIFEST.md` is mandatory; the other templates are adapted to the
-  target repo.
-- `skills/good-docs/` is the stateless documentation knowledge skill. It provides
-  doc type guidance, review checklists, style defaults, markup cautions, and
-  contract-extension guidance.
-- `REQUIREMENTS.md` is the implementation-aligned reference for this preset repo.
-  It is not copied into target documentation repos.
-
-## How To Use
-
-Run `/scan-docs` first in the target documentation repo. It scans the docs setup,
-asks for confirmation, and writes the four Markdown-KV contracts under
-`.agents/docs-preset/`.
-
-After that, use the **documentation-writer** agent for normal docs work: create,
-edit, review, or restructure user-facing docs. The agent reads the contracts and
-uses `good-docs` when it needs documentation-type guidance, review criteria,
-style defaults, markup cautions, or contract-extension advice.
-
-Use `/check-docs path/to/file.md` when you want a focused review against existing
-contracts without rewriting by default.
+  structure, then writes Markdown-KV contracts and keeps `AGENTS.md` aligned.
+- `skills/scan-user-docs/templates/` contains the contract and `AGENTS.md`
+  template shapes used by the scan skill.
+- `skills/maintain-user-docs/` is the stateless documentation guidance skill.
+  It provides doc type guidance, review checklists, style defaults, markup
+  cautions, readability profiles, and contract-extension guidance.
+- `agent/documentation-writer.md` is the optional bundled agent definition.
+- `command/scan-docs.md` and `command/check-docs.md` are optional OpenCode
+  command wrappers.
+- `REQUIREMENTS.md` is the implementation-aligned reference for this repo.
 
 ## Status
 
-v1 portable preset. V2/V3 items such as scoring, export pipelines, product-type
-template packs, reviewer subagents, and platform integrations are intentionally
-absent.
+Current version: `0.1.1`
+
+Current scope: v1 portable bundle. Standard Agent Skills come first. The
+bundled agent definition and commands are optional integration layers.

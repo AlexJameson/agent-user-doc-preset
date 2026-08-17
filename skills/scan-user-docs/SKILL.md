@@ -1,12 +1,12 @@
 ---
-name: docs-env-scan
+name: scan-user-docs
 description: >-
   Use when docs-preset contracts are missing, stale, contradicted, or when the
   user asks to scan docs. Detects docs tooling, user-facing surfaces, style, and
-  structure, then writes Markdown-KV contracts.
+  structure, then writes Markdown-KV contracts and updates AGENTS.md.
 ---
 
-# Docs Environment Scan
+# Scan User Docs
 
 This skill creates or updates the required default contract set in
 `.agents/docs-preset/`:
@@ -16,9 +16,16 @@ This skill creates or updates the required default contract set in
 - `STYLE.md`
 - `STRUCTURE.md`
 
+It also creates or updates a root `AGENTS.md` section that lists all four
+contract paths inline for downstream agents.
+
+This keeps the scan usable even when the bundled documentation agent or
+`maintain-user-docs` skill is not installed.
+
 `MANIFEST.md` is mandatory for every contract write/update. Create it from
 `templates/MANIFEST.md`. Use `templates/TOOLING.md`, `templates/STYLE.md`, and
 `templates/STRUCTURE.md` as shapes, but adapt their content to repo findings.
+Create or patch `AGENTS.md` from `templates/AGENTS.md`.
 
 Run on demand only. Do not run background scans or exhaustive audits.
 
@@ -28,8 +35,10 @@ Run on demand only. Do not run background scans or exhaustive audits.
 2. Classify each fact as `detected`, `inferred`, `user`, or `unknown`.
 3. If `MANIFEST.md` exists, use active entries to discover contract files.
 4. If `MANIFEST.md` is missing, prepare the required default four-file set.
-5. Summarize findings in one compact message and list all files to write.
-6. Write only after confirmation unless the user explicitly asked to write defaults.
+5. If `AGENTS.md` exists, prepare a minimal patch to its documentation-contract section only.
+6. If `AGENTS.md` is missing, prepare it from the template.
+7. Summarize findings in one compact message and list all files to write.
+8. Write only after confirmation unless the user explicitly asked to write defaults.
 
 For empty or messy repos, ask at most three bootstrap questions: product/project,
 primary reader, and first desired docs outcome.
@@ -50,6 +59,19 @@ Agent workflow files, OpenSpec, assistant commands, and agent config are not
 user-facing documentation surfaces unless explicitly requested. You may read
 local rules/agent files only as safety constraints.
 
+## AGENTS.md Rules
+
+- `AGENTS.md` is an activation aid, not a contract. Keep contract facts in `.agents/docs-preset/`.
+- Preserve unrelated `AGENTS.md` content.
+- If `AGENTS.md` exists, update only one dedicated section named `Documentation Contracts`.
+- If `AGENTS.md` is missing, create it from `templates/AGENTS.md`.
+- The section must list these exact paths inline:
+  - `.agents/docs-preset/MANIFEST.md`
+  - `.agents/docs-preset/TOOLING.md`
+  - `.agents/docs-preset/STYLE.md`
+  - `.agents/docs-preset/STRUCTURE.md`
+- Do not replace local agent rules unless they directly conflict with the contract paths above.
+
 ## Contract Rules
 
 - Contracts are Markdown-KV documents: headings are records, `key: value` lines are fields.
@@ -59,7 +81,8 @@ local rules/agent files only as safety constraints.
 - Ask before replacing user-confirmed facts.
 - `MANIFEST.md` lists contract files only; never put style, tooling, or structure rules in it.
 
-Validation message must explicitly list the four required default files:
+Validation message must explicitly list the four required default files and
+`AGENTS.md` when it will be created or updated:
 
 ```md
 I will write these contracts:
@@ -67,6 +90,9 @@ I will write these contracts:
 - `.agents/docs-preset/TOOLING.md`
 - `.agents/docs-preset/STYLE.md`
 - `.agents/docs-preset/STRUCTURE.md`
+
+I will also create or update:
+- `AGENTS.md`
 ```
 
 ## STYLE.md Output

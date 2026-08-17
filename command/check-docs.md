@@ -10,7 +10,7 @@ If target is empty, ask for a relative file or directory path.
 # Check Documentation
 
 Review the target against active contracts in `.agents/docs-preset/` and the
-`good-docs` skill. If contracts are missing or stale, ask whether to run
+`maintain-user-docs` skill. If contracts are missing or stale, ask whether to run
 `/scan-docs` first.
 
 Check:
