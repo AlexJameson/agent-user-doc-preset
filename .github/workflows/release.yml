@@ -26,6 +26,7 @@ jobs:
         run: |
           gh release create "${GITHUB_REF_NAME}" \
             dist/*.zip \
+            dist/*.tar.gz \
             dist/*.sha256 \
             --title "${GITHUB_REF_NAME}" \
             --generate-notes

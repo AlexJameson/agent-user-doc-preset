@@ -58,7 +58,7 @@ After the scan writes contracts, it can ask a few maintainer follow-up questions
 
 ## Install Manually
 
-You can download a release zip from GitHub Releases or clone the repo.
+You can download a release zip or tar.gz from GitHub Releases or clone the repo.
 
 Release page:
 
@@ -75,7 +75,7 @@ You can do this with your file manager or by terminal.
 
 File-manager approach:
 
-- unpack the release zip or open the cloned repo
+- unpack the release zip or tar.gz, or open the cloned repo
 - drag `skills/scan-user-docs/` into `.agents/skills/`
 - drag `skills/maintain-user-docs/` into `.agents/skills/`
 

@@ -24,14 +24,22 @@ cp -R "$ROOT_DIR/agent" "$ARCHIVE_DIR/agent"
 cp -R "$ROOT_DIR/command" "$ARCHIVE_DIR/command"
 
 mkdir -p "$DIST_DIR"
-rm -f "$DIST_DIR/${ARCHIVE_ROOT}.zip" "$DIST_DIR/${ARCHIVE_ROOT}.sha256"
+rm -f \
+  "$DIST_DIR/${ARCHIVE_ROOT}.zip" \
+  "$DIST_DIR/${ARCHIVE_ROOT}.zip.sha256" \
+  "$DIST_DIR/${ARCHIVE_ROOT}.tar.gz" \
+  "$DIST_DIR/${ARCHIVE_ROOT}.tar.gz.sha256"
 
 (
   cd "$STAGE_DIR"
   zip -qr "$DIST_DIR/${ARCHIVE_ROOT}.zip" "$ARCHIVE_ROOT"
+  tar -czf "$DIST_DIR/${ARCHIVE_ROOT}.tar.gz" "$ARCHIVE_ROOT"
 )
 
-shasum -a 256 "$DIST_DIR/${ARCHIVE_ROOT}.zip" > "$DIST_DIR/${ARCHIVE_ROOT}.sha256"
+shasum -a 256 "$DIST_DIR/${ARCHIVE_ROOT}.zip" > "$DIST_DIR/${ARCHIVE_ROOT}.zip.sha256"
+shasum -a 256 "$DIST_DIR/${ARCHIVE_ROOT}.tar.gz" > "$DIST_DIR/${ARCHIVE_ROOT}.tar.gz.sha256"
 
 printf 'created %s\n' "$DIST_DIR/${ARCHIVE_ROOT}.zip"
-printf 'created %s\n' "$DIST_DIR/${ARCHIVE_ROOT}.sha256"
+printf 'created %s\n' "$DIST_DIR/${ARCHIVE_ROOT}.zip.sha256"
+printf 'created %s\n' "$DIST_DIR/${ARCHIVE_ROOT}.tar.gz"
+printf 'created %s\n' "$DIST_DIR/${ARCHIVE_ROOT}.tar.gz.sha256"

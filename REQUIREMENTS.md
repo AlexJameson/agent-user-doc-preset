@@ -124,7 +124,7 @@ Requirements:
 
 Repo automation requirements:
 
-- ✓ Tagged GitHub releases can publish a curated zip archive for manual download.
+- ✓ Tagged GitHub releases can publish curated zip and tar.gz archives for manual download.
 - ✓ The release archive includes `README.md`, `LICENSE`, `skills/`, `agent/`, and `command/`.
 
 ## Contract Format
