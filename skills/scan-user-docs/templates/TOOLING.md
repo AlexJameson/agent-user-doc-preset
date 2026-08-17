@@ -2,7 +2,6 @@
 
 schema: docs-preset.tooling.v1
 validated_at: unknown
-confidence: detected | inferred | user | mixed
 platform: mkdocs | docusaurus | zensical | mintlify | plain-markdown | custom-static | mixed | unknown
 source_format: markdown | mdx | rst | asciidoc | mixed | unknown
 primary_docs_root: docs | null | unknown
@@ -14,7 +13,6 @@ external_side_effects: explicit-user-request-only
 source: mkdocs.yml | sidebars.js | zensical.toml | implicit | unknown
 format: yaml | js | toml | implicit | unknown
 editable: true | false | unknown
-confidence: detected | inferred | user | unknown
 
 ## Command: Build
 

@@ -64,6 +64,8 @@ Use `maintain-user-docs` to review or rewrite this page.
 Typical output size for the generated contract set is about `2,000` to `5,000`
 tokens, depending on repo complexity.
 
+After the scan writes contracts, it can ask a few maintainer follow-up questions in chat. Those questions should not be written into contract files unless the maintainer answers them and wants the contracts updated.
+
 ## Install Manually
 
 You can download a release zip from GitHub Releases or clone the repo.
@@ -136,8 +138,7 @@ agent, prompt, or rules format.
 - `.agents/docs-preset/STYLE.md`
 - `.agents/docs-preset/STRUCTURE.md`
 
-`MANIFEST.md` is mandatory. `AGENTS.md` is an activation aid only. Contract
-facts stay in `.agents/docs-preset/`.
+`MANIFEST.md` is mandatory. `AGENTS.md` is an activation aid only. Contract facts stay in `.agents/docs-preset/`. The generated `AGENTS.md` section should stay minimal and point to contracts rather than repeating their content.
 
 `skills/scan-user-docs/templates/` contains the contract and `AGENTS.md`
 template shapes used by the scan skill.

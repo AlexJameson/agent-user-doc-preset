@@ -39,6 +39,7 @@ Run on demand only. Do not run background scans or exhaustive audits.
 6. If `AGENTS.md` is missing, prepare it from the template.
 7. Summarize findings in one compact message and list all files to write.
 8. Write only after confirmation unless the user explicitly asked to write defaults.
+9. After the write finishes, ask up to three maintainer questions in chat if the answers would materially improve future docs work. Do not write unanswered maintainer questions into contract files.
 
 For empty or messy repos, ask at most three bootstrap questions: product/project,
 primary reader, and first desired docs outcome.
@@ -65,6 +66,7 @@ local rules/agent files only as safety constraints.
 - Preserve unrelated `AGENTS.md` content.
 - If `AGENTS.md` exists, update only one dedicated section named `Documentation Contracts`.
 - If `AGENTS.md` is missing, create it from `templates/AGENTS.md`.
+- Keep the section pointer-only. Do not copy repo-specific tooling, style, structure, or review content into `AGENTS.md`.
 - The section must list these exact paths inline:
   - `.agents/docs-preset/MANIFEST.md`
   - `.agents/docs-preset/TOOLING.md`
@@ -77,6 +79,8 @@ local rules/agent files only as safety constraints.
 - Contracts are Markdown-KV documents: headings are records, `key: value` lines are fields.
 - Do not use YAML frontmatter.
 - Keep fields lean. Do not add template-only metadata that does not affect edits, review, placement, or verification.
+- Put generic review heuristics in `maintain-user-docs`, not in generated repo contracts.
+- Put unresolved maintainer prompts in chat, not in generated contract files.
 - Preserve unknown keys, extension records, and manifest entries.
 - On re-run, update changed detected facts only.
 - Ask before replacing user-confirmed facts.
@@ -100,7 +104,8 @@ I will also create or update:
 
 Generate concrete decisions, not a form:
 
-- Put prompts only under `Questions For Maintainers`.
 - Do not attach `prompt:` to detected, inferred, or user-confirmed records.
 - Do not add placeholder `scoring`, `status`, `scope`, or similar fields unless they carry concrete repo-specific meaning.
-- Include useful sections when supported by evidence: product terminology, audience, voice rules, example policy, syntax preservation, review criteria, and maintainer questions.
+- Prefer `source:` only when it materially helps later verification.
+- Avoid `source:` and `confidence:` on routine structure records such as obvious surfaces and zones.
+- Include useful sections when supported by evidence: product terminology, audience, voice rules, example policy, syntax preservation, and repo-specific verification rules.

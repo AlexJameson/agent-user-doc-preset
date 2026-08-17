@@ -77,6 +77,8 @@ Requirements:
 - ✓ Before writing, summarizes findings and explicitly lists all four contract
   files plus `AGENTS.md` when it will be created or updated.
 - ✓ Writes only after confirmation unless the user explicitly asks for defaults.
+- ✓ Asks follow-up maintainer questions in chat only when the answers would
+  materially improve future docs work.
 - ✓ Preserves unknown keys, extension records, and manifest entries.
 - ✓ Keeps `STRUCTURE.md` compact and partial.
 
@@ -169,6 +171,10 @@ Contracts are Markdown-KV:
 - ✓ Preserve unknown keys and extension records.
 - ✓ Avoid template-only metadata that does not affect edits, review,
   placement, or verification.
+- ✓ Keep generic review heuristics in `maintain-user-docs`, not in generated
+  repo contracts.
+- ✓ Keep unresolved maintainer questions in chat, not in generated contract
+  files.
 
 Default layout:
 
@@ -233,5 +239,5 @@ structure rules.
   not an optional registry.
 - `AGENTS.md` must contain all four contract paths inline; do not rely on
   nested manifest discovery alone for activation.
-- `STYLE.md` should avoid scaffold-like prompts on detected facts. Open
-  questions belong under `Questions For Maintainers`.
+- `STYLE.md` should avoid scaffold-like prompts on detected facts. Unresolved
+  maintainer questions should stay in chat until the user answers them.
