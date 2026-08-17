@@ -2,13 +2,13 @@
 
 ![Version](https://img.shields.io/badge/version-0.1.2-blue)
 
-A portable bundle to make agents write good user docs. It ships two standard Agent Skills and one optional agent definition. Each part is self-contained.
+A portable bundle to make agents write good user docs. It ships two standard Agent Skills and one optional agent definition. Only `scan-user-docs` is self-contained. Typical output size for the whole generated contract set is about `2,000` to `5,000` tokens, depending on repo complexity.
 
 ## Includes
 
-- `skills/scan-user-docs/`: scans a docs repo, writes readable Markdown-KV contracts under `.agents/docs-preset/`, and creates or updates `AGENTS.md` so downstream agents can find all four contract files.
-- `skills/maintain-user-docs/`: stateless guidance for writing, editing, reviewing, and restructuring user-facing docs. Includes English STE100-inspired basics and Russian controlled technical writing basics.
-- `agent/documentation-writer.md`: optional agent definition focused on day-to-day docs work. Use it directly in OpenCode or adapt it to another harness.
+- `skills/scan-user-docs/`: scans a docs repo, writes readable Markdown-KV contracts under `.agents/docs-preset/`, and creates or updates `AGENTS.md` so downstream agents can find all four contract files. Run after you install the preset or this skill alone.
+- `skills/maintain-user-docs/`: stateless guidance for writing, editing, reviewing, and restructuring user-facing docs. Includes English STE100-inspired basics and Russian controlled technical writing basics. It does not write or discover repo facts on its own, so for repo-aware work it should be used after `scan-user-docs` has written contracts.
+- `agent/documentation-writer.md`: optional agent definition focused on day-to-day docs work. Use it directly in OpenCode or adapt it to another harness. It is contract-driven: it depends on `scan-user-docs` for repo facts and uses `maintain-user-docs` for doc types, defaults, checklists, readability profiles, and markup cautions.
 - `REQUIREMENTS.md`: implementation-aligned reference for this repo. Users can use it to recreate only the parts they consider important.
 
 Optional wrappers:
@@ -50,12 +50,6 @@ Use `scan-user-docs` to scan this repo and write documentation contracts.
 Use `maintain-user-docs` to review or rewrite this page.
 ```
 
-`scan-user-docs` is self-contained. It writes the contracts and patches `AGENTS.md` so generic agents can consume them without extra setup.
-
-Typical output size for the generated contract set is about `2,000` to `5,000` tokens, depending on repo complexity.
-
-After the scan writes contracts, it can ask a few maintainer follow-up questions in chat. Those questions should not be written into contract files unless the maintainer answers them and wants the contracts updated.
-
 ## Install Manually
 
 You can download a release zip or tar.gz from GitHub Releases or clone the repo.
@@ -64,7 +58,7 @@ Release page:
 
 - `https://github.com/AlexJameson/agent-user-doc-preset/releases`
 
-### Skills
+#### Skills
 
 Place these folders in your project:
 
@@ -93,7 +87,7 @@ Then run:
 Use `scan-user-docs` to scan this repo and write documentation contracts.
 ```
 
-### Optional Agent Definition
+#### Optional Agent Definition
 
 If your harness supports repository agent definitions, install the bundled agent definition too.
 
@@ -117,7 +111,13 @@ cp "$PRESET/command/scan-docs.md" "$PRESET/command/check-docs.md" .opencode/comm
 
 For Claude Code, pi, or another harness, use `agent/documentation-writer.md` as source material and ask an agent to rewrite it into that harness's repo-local agent, prompt, or rules format.
 
-## What `scan-user-docs` Writes
+## `scan-user-docs` Skill
+
+`scan-user-docs` is self-contained. It writes the contracts and patches `AGENTS.md` so generic agents can consume them without extra setup.
+
+After the scan writes contracts, it can ask a few maintainer follow-up questions in chat. Those questions should not be written into contract files unless the maintainer answers them and wants the contracts updated.
+
+#### What `scan-user-docs` Writes
 
 - `AGENTS.md`
 - `.agents/docs-preset/MANIFEST.md`
@@ -129,7 +129,7 @@ For Claude Code, pi, or another harness, use `agent/documentation-writer.md` as 
 
 `skills/scan-user-docs/templates/` contains the contract and `AGENTS.md` template shapes used by the scan skill.
 
-## Scan Strategy
+#### Scan Strategy
 
 `scan-user-docs` should not spend its whole budget trying to read every page in a large repo.
 
@@ -149,7 +149,7 @@ Then it classifies the repo and picks a scan mode:
 
 Large repos should produce partial contracts by design. The scan should capture canonical surfaces, edit boundaries, generated outputs, structure markers, and placement rules without attempting an exhaustive page inventory.
 
-## Contract Vocabulary
+## Contract Format and Vocabulary
 
 Contracts use Markdown-KV.
 
