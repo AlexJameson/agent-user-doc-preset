@@ -32,7 +32,7 @@ Run on demand only. Do not run background scans or exhaustive audits.
 ## Workflow
 
 1. Detect cheap, high-confidence facts.
-2. Classify each fact as `detected`, `inferred`, `user`, or `unknown`.
+2. Classify each fact as `detected`, `inferred`, `user`, or `unknown` when that distinction helps downstream work.
 3. If `MANIFEST.md` exists, use active entries to discover contract files.
 4. If `MANIFEST.md` is missing, prepare the required default four-file set.
 5. If `AGENTS.md` exists, prepare a minimal patch to its documentation-contract section only.
@@ -76,7 +76,8 @@ local rules/agent files only as safety constraints.
 
 - Contracts are Markdown-KV documents: headings are records, `key: value` lines are fields.
 - Do not use YAML frontmatter.
-- Preserve unknown keys, extension records, manifest entries, types, scopes, and statuses.
+- Keep fields lean. Do not add template-only metadata that does not affect edits, review, placement, or verification.
+- Preserve unknown keys, extension records, and manifest entries.
 - On re-run, update changed detected facts only.
 - Ask before replacing user-confirmed facts.
 - `MANIFEST.md` lists contract files only; never put style, tooling, or structure rules in it.
@@ -101,4 +102,5 @@ Generate concrete decisions, not a form:
 
 - Put prompts only under `Questions For Maintainers`.
 - Do not attach `prompt:` to detected, inferred, or user-confirmed records.
+- Do not add placeholder `scoring`, `status`, `scope`, or similar fields unless they carry concrete repo-specific meaning.
 - Include useful sections when supported by evidence: product terminology, audience, voice rules, example policy, syntax preservation, review criteria, and maintainer questions.

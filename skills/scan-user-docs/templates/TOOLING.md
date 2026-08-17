@@ -2,7 +2,6 @@
 
 schema: docs-preset.tooling.v1
 validated_at: unknown
-validated_by: user | skipped | unknown
 confidence: detected | inferred | user | mixed
 platform: mkdocs | docusaurus | zensical | mintlify | plain-markdown | custom-static | mixed | unknown
 source_format: markdown | mdx | rst | asciidoc | mixed | unknown

@@ -2,7 +2,6 @@
 
 schema: docs-preset.structure.v1
 validated_at: unknown
-validated_by: user | skipped | unknown
 confidence: detected | inferred | user | mixed
 mode: surfaces-and-zones
 inventory: partial
@@ -41,9 +40,3 @@ confidence: detected | inferred | user | unknown
 
 ### Rule: Edit source, not generated output
 rule: Edit documentation source files, not generated output directories.
-status: default | detected | inferred | user
-
-## Known Pages
-
-Only record pages created, moved, renamed, split, or explicitly validated while
-using the preset. Do not maintain a full repo inventory in v1.

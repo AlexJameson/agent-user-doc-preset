@@ -16,6 +16,8 @@ Skills and one optional agent definition. Each part is self-contained.
 - `agent/documentation-writer.md`: optional agent definition focused on
   day-to-day docs work. Use it directly in OpenCode or adapt it to another
   harness.
+- `REQUIREMENTS.md`: implementation-aligned reference for this repo. Users can
+  use it to recreate only the parts they consider important.
 
 Optional OpenCode wrappers:
 
@@ -36,9 +38,10 @@ Required:
 - Install `skills/scan-user-docs` at `.agents/skills/scan-user-docs`
 - Install `skills/maintain-user-docs` at `.agents/skills/maintain-user-docs`
 
-Optional:
-- If this harness supports repo-local agent definitions, install or adapt `agent/documentation-writer.md`
-- If this harness supports OpenCode-style commands, install `command/scan-docs.md` and `command/check-docs.md`
+Harness-specific:
+- If you are using OpenCode, install `agent/documentation-writer.md` at `.opencode/agent/documentation-writer.md`
+- If you are using OpenCode, install `command/scan-docs.md` and `command/check-docs.md` under `.opencode/command/`
+- If you are using another harness, do not skip the agent layer silently. Suggest how to adapt `agent/documentation-writer.md` into that harness's repo-local agent, prompt, or rules format
 
 Report what you installed and where. Do not run the scan yet.
 ```
@@ -57,6 +60,9 @@ Use `maintain-user-docs` to review or rewrite this page.
 
 `scan-user-docs` is self-contained. It writes the contracts and patches
 `AGENTS.md` so generic agents can consume them without extra setup.
+
+Typical output size for the generated contract set is about `2,000` to `5,000`
+tokens, depending on repo complexity.
 
 ## Install Manually
 
@@ -133,24 +139,5 @@ agent, prompt, or rules format.
 `MANIFEST.md` is mandatory. `AGENTS.md` is an activation aid only. Contract
 facts stay in `.agents/docs-preset/`.
 
-## Components
-
-- `skills/scan-user-docs/` is the state-producing scan skill. It detects docs
-  tooling, user-facing surfaces, style signals, generated outputs, and compact
-  structure, then writes Markdown-KV contracts and keeps `AGENTS.md` aligned.
-- `skills/scan-user-docs/templates/` contains the contract and `AGENTS.md`
-  template shapes used by the scan skill.
-- `skills/maintain-user-docs/` is the stateless documentation guidance skill.
-  It provides doc type guidance, review checklists, style defaults, markup
-  cautions, readability profiles, and contract-extension guidance.
-- `agent/documentation-writer.md` is the optional bundled agent definition.
-- `command/scan-docs.md` and `command/check-docs.md` are optional OpenCode
-  command wrappers.
-- `REQUIREMENTS.md` is the implementation-aligned reference for this repo.
-
-## Status
-
-Current version: `0.1.1`
-
-Current scope: v1 portable bundle. Standard Agent Skills come first. The
-bundled agent definition and commands are optional integration layers.
+`skills/scan-user-docs/templates/` contains the contract and `AGENTS.md`
+template shapes used by the scan skill.

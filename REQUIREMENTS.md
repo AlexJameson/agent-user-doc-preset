@@ -70,14 +70,14 @@ Requirements:
   `.agents/docs-preset/STYLE.md`, and `.agents/docs-preset/STRUCTURE.md`
   inline in `AGENTS.md`.
 - ✓ Detects cheap, high-confidence facts only.
-- ✓ Classifies facts as `detected`, `inferred`, `user`, or `unknown`.
+- ✓ Uses provenance labels such as `detected`, `inferred`, `user`, or
+  `unknown` only when they add real value.
 - ✓ If a manifest exists, discovers contracts from active manifest entries.
 - ✓ If no manifest exists, prepares the required default four-file set.
 - ✓ Before writing, summarizes findings and explicitly lists all four contract
   files plus `AGENTS.md` when it will be created or updated.
 - ✓ Writes only after confirmation unless the user explicitly asks for defaults.
-- ✓ Preserves unknown keys, extension records, manifest entries, types, scopes,
-  and statuses.
+- ✓ Preserves unknown keys, extension records, and manifest entries.
 - ✓ Keeps `STRUCTURE.md` compact and partial.
 
 Detected facts include:
@@ -167,6 +167,8 @@ Contracts are Markdown-KV:
 - ✓ `key: value` lines are fields.
 - ✓ No YAML frontmatter.
 - ✓ Preserve unknown keys and extension records.
+- ✓ Avoid template-only metadata that does not affect edits, review,
+  placement, or verification.
 
 Default layout:
 
