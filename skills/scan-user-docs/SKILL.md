@@ -29,27 +29,55 @@ Create or patch `AGENTS.md` from `templates/AGENTS.md`.
 
 Run on demand only. Do not run background scans or exhaustive audits.
 
+Start with a cheap repo fingerprint before reading deeply. Do not treat the
+context window as the scan budget. Use repo shape, docs roots, generated/source
+splits, and cheap file-pattern counts to choose a scan mode.
+
 ## Workflow
 
-1. Detect cheap, high-confidence facts.
-2. Classify each fact as `detected`, `inferred`, `user`, or `unknown` when that distinction helps downstream work.
-3. If `MANIFEST.md` exists, use active entries to discover contract files.
-4. If `MANIFEST.md` is missing, prepare the required default four-file set.
-5. If `AGENTS.md` exists, prepare a minimal patch to its documentation-contract section only.
-6. If `AGENTS.md` is missing, prepare it from the template.
-7. Summarize findings in one compact message and list all files to write.
-8. Write only after confirmation unless the user explicitly asked to write defaults.
-9. After the write finishes, ask up to three maintainer questions in chat if the answers would materially improve future docs work. Do not write unanswered maintainer questions into contract files.
+1. Build a cheap fingerprint from top-level layout, obvious docs/config files, and cheap file-pattern counts.
+2. Check `llms.txt` and `llms-full.txt` early when present. Treat them as high-value hints about repo structure, docs surfaces, and local guidance, but verify important claims against the repo before writing contracts.
+3. Classify the repo type and choose a scan mode.
+4. Detect cheap, high-confidence facts within that scan mode.
+5. Classify each fact as `detected`, `inferred`, `user`, or `unknown` when that distinction helps downstream work.
+6. If `MANIFEST.md` exists, use active entries to discover contract files.
+7. If `MANIFEST.md` is missing, prepare the required default four-file set.
+8. If `AGENTS.md` exists, prepare a minimal patch to its documentation-contract section only.
+9. If `AGENTS.md` is missing, prepare it from the template.
+10. Summarize findings in one compact message and list all files to write.
+11. Write only after confirmation unless the user explicitly asked to write defaults.
+12. After the write finishes, ask up to three maintainer questions in chat if the answers would materially improve future docs work. Do not write unanswered maintainer questions into contract files.
 
 For empty or messy repos, ask at most three bootstrap questions: product/project,
 primary reader, and first desired docs outcome.
+
+## Scan Guardrails
+
+Classify the repo before deeper reads. Useful repo types include:
+
+- Code repo with light docs.
+- Docs-first project with one primary docs root.
+- Knowledge base or note vault.
+- Large or enterprise multi-product docs repo.
+- Source plus generated-docs mirror.
+
+Choose one scan mode:
+
+- `normal`: Use for small or medium repos with a few obvious docs roots. Reading dozens of files is acceptable when they are likely to change the contract.
+- `bounded`: Use for structured repos with many docs files or several major subtrees. Sample representative files by subtree instead of reading broadly.
+- `control-plane-only`: Use for very large docs repos, translated repos, or generated/source split repos. Read root control docs, build/config files, language roots, nav markers, and a few representative subtree markers only.
+
+Escalate from `normal` to `bounded` or `control-plane-only` when cheap signals show that a full content scan would be wasteful. Signals include many docs-like files, multiple language roots, generated bundles, translation trees, many top-level docs roots, or obvious enterprise structure.
+
+For large repos, write a partial contract on purpose. Capture edit boundaries, canonical surfaces, generated outputs, placement rules, and dominant structure. Do not attempt page inventory or exhaustive sampling.
 
 ## Detect
 
 - Source format: Markdown, MDX, reST, AsciiDoc, mixed, or unknown.
 - Tooling/platform: MkDocs, Docusaurus, Zensical, Mintlify-style config, plain Markdown, custom static generator, mixed, or unknown.
+- Repo type and scan mode.
 - Docs root or user-facing surfaces.
-- Navigation source: `mkdocs.yml`, `sidebars.*`, `zensical.toml`, README links, or unknown.
+- Navigation source: `llms.txt`, `llms-full.txt`, `mkdocs.yml`, `sidebars.*`, `zensical.toml`, README links, or unknown.
 - Build, preview, and lint commands from README, package scripts, Makefile, pyproject, CI, or config.
 - Generated/locked outputs: `site/`, `build/`, `dist/`, `_build/`, `.docusaurus/`, generated API refs, non-editable files.
 - User-facing surfaces: `README.md`, `docs/`, examples, tutorials, changelog, release notes, API samples/reference, user-facing developer notes.

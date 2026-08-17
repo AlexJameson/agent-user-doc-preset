@@ -1,25 +1,17 @@
 # Agent Users Doc Preset
 
-![Version](https://img.shields.io/badge/version-0.1.1-blue)
+![Version](https://img.shields.io/badge/version-0.1.2-blue)
 
-A portable documentation bundle for AI agents. It ships two standard Agent
-Skills and one optional agent definition. Each part is self-contained.
+A portable documentation bundle for AI agents. It ships two standard Agent Skills and one optional agent definition. Each part is self-contained.
 
 ## Includes
 
-- `skills/scan-user-docs/`: scans a docs repo, writes readable Markdown-KV
-  contracts under `.agents/docs-preset/`, and creates or updates `AGENTS.md` so
-  downstream agents can find all four contract files.
-- `skills/maintain-user-docs/`: stateless guidance for writing, editing,
-  reviewing, and restructuring user-facing docs. Includes English
-  STE100-inspired basics and Russian controlled technical writing basics.
-- `agent/documentation-writer.md`: optional agent definition focused on
-  day-to-day docs work. Use it directly in OpenCode or adapt it to another
-  harness.
-- `REQUIREMENTS.md`: implementation-aligned reference for this repo. Users can
-  use it to recreate only the parts they consider important.
+- `skills/scan-user-docs/`: scans a docs repo, writes readable Markdown-KV contracts under `.agents/docs-preset/`, and creates or updates `AGENTS.md` so downstream agents can find all four contract files.
+- `skills/maintain-user-docs/`: stateless guidance for writing, editing, reviewing, and restructuring user-facing docs. Includes English STE100-inspired basics and Russian controlled technical writing basics.
+- `agent/documentation-writer.md`: optional agent definition focused on day-to-day docs work. Use it directly in OpenCode or adapt it to another harness.
+- `REQUIREMENTS.md`: implementation-aligned reference for this repo. Users can use it to recreate only the parts they consider important.
 
-Optional OpenCode wrappers:
+Optional wrappers:
 
 - `command/scan-docs.md`
 - `command/check-docs.md`
@@ -58,11 +50,9 @@ Use `scan-user-docs` to scan this repo and write documentation contracts.
 Use `maintain-user-docs` to review or rewrite this page.
 ```
 
-`scan-user-docs` is self-contained. It writes the contracts and patches
-`AGENTS.md` so generic agents can consume them without extra setup.
+`scan-user-docs` is self-contained. It writes the contracts and patches `AGENTS.md` so generic agents can consume them without extra setup.
 
-Typical output size for the generated contract set is about `2,000` to `5,000`
-tokens, depending on repo complexity.
+Typical output size for the generated contract set is about `2,000` to `5,000` tokens, depending on repo complexity.
 
 After the scan writes contracts, it can ask a few maintainer follow-up questions in chat. Those questions should not be written into contract files unless the maintainer answers them and wants the contracts updated.
 
@@ -105,8 +95,7 @@ Use `scan-user-docs` to scan this repo and write documentation contracts.
 
 ### Optional Agent Definition
 
-If your harness supports repository agent definitions, install the bundled agent
-definition too.
+If your harness supports repository agent definitions, install the bundled agent definition too.
 
 OpenCode path:
 
@@ -126,9 +115,7 @@ cp "$PRESET/agent/documentation-writer.md" .opencode/agent/documentation-writer.
 cp "$PRESET/command/scan-docs.md" "$PRESET/command/check-docs.md" .opencode/command/
 ```
 
-For Claude Code, pi, or another harness, use `agent/documentation-writer.md` as
-source material and ask an agent to rewrite it into that harness's repo-local
-agent, prompt, or rules format.
+For Claude Code, pi, or another harness, use `agent/documentation-writer.md` as source material and ask an agent to rewrite it into that harness's repo-local agent, prompt, or rules format.
 
 ## What `scan-user-docs` Writes
 
@@ -140,5 +127,44 @@ agent, prompt, or rules format.
 
 `MANIFEST.md` is mandatory. `AGENTS.md` is an activation aid only. Contract facts stay in `.agents/docs-preset/`. The generated `AGENTS.md` section should stay minimal and point to contracts rather than repeating their content.
 
-`skills/scan-user-docs/templates/` contains the contract and `AGENTS.md`
-template shapes used by the scan skill.
+`skills/scan-user-docs/templates/` contains the contract and `AGENTS.md` template shapes used by the scan skill.
+
+## Scan Strategy
+
+`scan-user-docs` should not spend its whole budget trying to read every page in a large repo.
+
+It starts with a cheap fingerprint:
+
+- top-level layout
+- obvious docs and config files
+- docs-like file patterns
+- generated versus editable directory splits
+- existing guidance such as `README.md`, `AGENTS.md`, `llms.txt`, or `llms-full.txt`
+
+Then it classifies the repo and picks a scan mode:
+
+- `normal`: small or medium repos with a few obvious docs roots
+- `bounded`: structured repos that need representative subtree sampling
+- `control-plane-only`: very large docs repos, translated repos, or source-plus-generated repos
+
+Large repos should produce partial contracts by design. The scan should capture canonical surfaces, edit boundaries, generated outputs, structure markers, and placement rules without attempting an exhaustive page inventory.
+
+## Contract Vocabulary
+
+Contracts use Markdown-KV.
+
+Markdown-KV is plain Markdown with information organized in a consistent record-and-field shape. It is meant to stay human-readable first, while still being easy for agents to scan, compare, and update safely.
+
+- Headings define records.
+- `key: value` lines define fields inside those records.
+- Normal Markdown prose can still appear where it helps readability.
+
+Common terms:
+
+- `surface`: a concrete documentation file or directory with a defined purpose, audience, and edit boundary.
+- `zone`: a logical documentation area that may span multiple surfaces and helps agents place or move content.
+- `rule`: a repo-specific instruction about placement, editing, or avoidance.
+- `safety`: the expected side-effect level of running a documented command.
+- `edit_safety`: the expected caution level for editing a documented file or directory.
+
+Current `safety` and `edit_safety` values are controlled vocabulary by convention, not a strict schema enum. The default templates use compact values such as `local`, `external-side-effect`, `unknown`, `editable`, `ask-first`, `generated`, and `locked`. Repos may extend them when a sharper distinction is useful.
